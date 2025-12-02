@@ -1,75 +1,37 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-    <head>
-        <meta charset="UTF-8" />
-        <title>EXEMPLO DE SELETORES E MODELOS DE CAIXA</title>
-        <style>
-            /* ESTILIZANDO O CORPO DA PAGINA */
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                background-color: #f0f0f0;
-            }
-            /* Seletores de tag : todos os h2 ficamcom cor azul */
-            h2 {
-                color:blue
-                margin-bottom: 10px;
-            }
-            /* Classe 'container': estilizando uma div de estrutura */
-            .container {
-                width: 80%;
-                max-width: 600px;
-                background-color: #fff;
-                padding: 20px; /* unidade relativa ao pai */
-                margin: 0 auto; /* centraliza a div na pagina */
-                border: 2px solid #333; /* borda de 2px */
-                box-shadow: 2px 2px 10px rgba(red, green, blue, alpha)
-                ;
-            }
-            /* ID 'destaque': estilizando um titulo especifico */
-            #destaque {
-                font-size: 24px; /*tamanho fixo em pixels */
-                color: red;
-                margin-bottom: 15px;
-            }
-            /*Seleção de elementos com atributo type="test" */
-            input[type="text"] {
-                border: 2px solid #666;
-                padding: 8px;
-                width: 50%; /* largura relativa ao elemento pai */
-                font-size: 1em; /* relativo ao tamanho da fonte do elemento */
-            }
-            /* estilo para o span com classe */
-            span.destaque {
-                color: green;
-                font-weight: bold;
-            }
-            /* Combinando seletores: p dento de div com classe 'container' */
-            div.container p {
-                line-height: 1.5; /* espaçamento entre linhas em unidades 'em' */
-                margin-top: 10px;
-            }
-            /* Estilizando para elementos span inline dentro de paragrafos */
-            p span {
-                background-color: yellow;
-                padding: 2px 4px; /* padding interno */
-                border-radius: 4px; /* cantos arredondados */
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <!--Titulo com ID-->
-            <h2 id="destaque">Exemplo de seletores e modelo de caixa</h2>
-            <!--Paragrafo com span inline-->
-            <p>Este e um <span>exemplo</span> de uso de <span class="destaque">seletores CSS</span>.</p>
-            <!--input com atributo type-->
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" placeholder="Digite seu nome" />
-            <!--Elemento div estruturando conteudo -->
-        <div class="sub-container">
-            <p>Outra linha de texto dentro da div de estrutura.</p>
-        </div>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Clash Royale - Home</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Guia Clash Royale</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cards.html">Cards</a>
+      <a href="meta.html">Meta</a>
+      <a href="torneios.html">Torneios</a>
+    </nav>
+  </header>
+  <main>
+    <div class="card">
+      <h2>Bem-vindo!</h2>
+      <p>Clash Royale é um jogo de estratégia em tempo real criado pela Supercell, lançado em 2016.  
+      Ele combina elementos de jogos de cartas e tower defense, onde você coleta cartas, constrói decks e enfrenta jogadores online.</p>
+      <p>Curiosidades:</p>
+      <ul>
+        <li>O jogo já arrecadou bilhões de dólares em receita.</li>
+        <li>Existem torneios oficiais e mundiais.</li>
+        <li>O jogo está disponível para iOS e Android.</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>
+
     </div>
 </body>
 </html>
+
