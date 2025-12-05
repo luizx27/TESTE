@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="stylesheet" href="clash-style.css">
+<link href="https://fonts.cdnfonts.com/css/supercell-magic" rel="stylesheet">
+
+  <meta charset="utf-8" />
+  <title>Clash Royale — Meta</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Meta / Decks Populares</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cards.html">Cards</a>
+      <a href="meta.html">Meta</a>
+      <a href="torneios.html">Torneios</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="metaContainer" class="card">Carregando decks populares...</section>
+  </main>
+
+  <script>
+    async function fetchPopularDecks() {
+      const res = await fetch("/api/popular-decks");
+      if (!res.ok) return [];
+      return res.json();
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const container = document.getElementById("metaContainer");
+      const decks = await fetchPopularDecks();
+      container.innerHTML = "";
+      if (!decks.length) container.innerText = "Nenhum deck disponível.";
+      decks.forEach(deck => {
+        const d = document.createElement("div");
+        d.className = "card";
+        d.innerHTML = `<h3>${deck.name}</h3>
+                       <p>Cartas: ${deck.cards.join(", ")}</p>
+                       <p>Uso: ${deck.usagePercent ?? "—"}%</p>`;
+        container.appendChild(d);
+      });
+    });
+  </script>
+</body>
+</html>

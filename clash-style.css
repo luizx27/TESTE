@@ -1,0 +1,108 @@
+/* ======== ESTILO GERAL ======== */
+body {
+    margin: 0;
+    font-family: 'Supercell-Magic', Arial, sans-serif;
+    background: #0a3d62; /* azul escuro estilo Clash */
+    color: white;
+}
+
+/* ======== HEADER ======== */
+header {
+    background: #1e90ff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 5px solid #ffcc00; /* dourado */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 3px 3px #0a3d62;
+}
+
+/* ======== MENU ======== */
+nav {
+    background: #7a5230;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 4px solid #ffcc00;
+}
+
+nav a {
+    padding: 12px 25px;
+    margin: 0 10px;
+    color: white;
+    background: #1e90ff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: 3px solid #ffcc00;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    background: #ffcc00;
+    color: #0a3d62;
+}
+
+/* ======== CONTAINER ======== */
+.container {
+    padding: 30px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* ======== CARTAS ======== */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #1e90ff;
+    padding: 15px;
+    border-radius: 15px;
+    border: 4px solid #ffcc00;
+    text-align: center;
+    box-shadow: 0 6px #0a3d62;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* ======== BOTÕES CLASH ======== */
+.btn {
+    background: #ffcc00;
+    color: #0a3d62;
+    padding: 12px 25px;
+    border: 3px solid #7a5230;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #1e90ff;
+    color: white;
+}
+
+/* ======== RODAPÉ ======== */
+footer {
+    margin-top: 40px;
+    background: #7a5230;
+    text-align: center;
+    padding: 20px;
+    border-top: 4px solid #ffcc00;
+}

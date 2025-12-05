@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <title>Melhore no Clash — Treinos e Estratégias</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <h1>Treinos & Estratégias</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="meta.html">Meta</a>
+        <a href="guides.html">Guides</a>
+        <a href="resources.html">Recursos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2>Plano de evolução (simples)</h2>
+      <ol>
+        <li>Entenda 5 counters essenciais (ex.: contra Gigante, PEKKA, Bridge Spam)</li>
+        <li>Tenha 3 decks prontos (aggro, control, beatdown)</li>
+        <li>Pratique 15 minutos por dia: 10 partidas focadas em aprender uma carta</li>
+        <li>Revise replays: identifique 3 erros por partida</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>Exercícios práticos</h2>
+      <ul>
+        <li><strong>Posicionamento</strong>: crie situações em partidas amistosas para treinar onde posicionar tropas defensivas.</li>
+        <li><strong>Tempo de feitiço</strong>: treinar timing de Bola de Fogo / Raio em tropas agrupadas.</li>
+        <li><strong>Controle de elixir</strong>: conte elixir do adversário e pratique pushes em vantagem.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Mini-treino: reação a push</h2>
+      <p>Clique para gerar um cenário aleatório e pratique mentalmente a resposta.</p>
+      <div class="row">
+        <button id="genScenario" class="btn">Gerar cenário</button>
+      </div>
+      <div id="scenario" style="margin-top:12px" class="muted"></div>
+    </section>
+
+    <footer class="card muted">Dica: jogue 2v2 para testar ideias sem risco de perder troféus.</footer>
+  </main>
+
+  <script>
+    const scenarios = [
+      'Gigante + Mago vindo por trás da ponte — como responder?',
+      'Bridge Spam com Bandida e Cavaleiro — quais cartas usar?',
+      'Push pesado com PEKKA e Bebê Dragão — como dividir defesa?',
+      'Horde aérea em seu campo — você tem bola de fogo? qual posição usar?'
+    ];
+    document.getElementById('genScenario').addEventListener('click', ()=>{
+      const s = scenarios[Math.floor(Math.random()*scenarios.length)];
+      document.getElementById('scenario').textContent = s;
+    });
+  </script>
+</body>
+</html>

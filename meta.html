@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <title>Meta — Decks Populares e Counters</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <h1>Meta</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="meta.html">Meta</a>
+        <a href="guides.html">Melhore</a>
+        <a href="resources.html">Recursos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2>Decks Populares</h2>
+      <div id="decksContainer">Carregando decks...</div>
+    </section>
+
+    <section class="card">
+      <h2>Analisador de Deck (cole nomes ou use decks abaixo)</h2>
+      <textarea id="deckInput" placeholder="Ex: Gigante, Mago, Bola de Fogo, Arqueiras, ..."></textarea>
+      <div class="row">
+        <button id="analyzeBtn" class="btn">Analisar Deck</button>
+        <button id="fillExample" class="btn secondary">Usar exemplo (Gigante)</button>
+      </div>
+      <div id="analysisResult" class="muted" style="margin-top:12px"></div>
+    </section>
+
+    <section class="card">
+      <h2>Counters Rápidos</h2>
+      <div id="countersGrid" class="grid"></div>
+    </section>
+
+    <footer class="card muted">Use o analisador para descobrir média de elixir e riscos do seu deck — experimente trocar 1 carta por um counter direto.</footer>
+  </main>
+
+  <script src="js/common.js"></script>
+  <script>
+    // Puxar decks (rota do backend). Se o backend tiver /api/popular-decks, usa-a; se não, tenta /cards como fallback.
+    async function loadDecks() {
+      let decks = [];
+      try {
+        const res = await fetch('/api/popular-decks');
+        if (res.ok) decks = await res.json();
+        else throw new Error('no decks');
+      } catch(e) {
+        // fallback simples: criar decks com base em algumas cartas do backend (se existir)
+        try {
+          const c = await fetch('/cards').then(r=>r.json());
+          const items = c.items || [];
+          decks = [
+            {name:'Exemplo Aggro', cards: items.slice(0,8).map(x=>x.name || x), usagePercent: 10},
+            {name:'Exemplo Control', cards: items.slice(1,9).map(x=>x.name || x), usagePercent: 8}
+          ];
+        } catch(err){ decks = [{name:'Nenhum deck disponível', cards:[], usagePercent:0}]; }
+      }
+      const container = document.getElementById('decksContainer');
+      container.innerHTML = '';
+      decks.forEach(d => {
+        const el = document.createElement('div');
+        el.className = 'deck-card';
+        el.innerHTML = `<strong>${d.name}</strong><div class="muted">Uso: ${d.usagePercent || 0}%</div><div>Cartas: ${d.cards.join(', ')}</div><button class="btn small useDeck">Analisar este deck</button>`;
+        container.appendChild(el);
+      });
+      // bind buttons
+      document.querySelectorAll('.useDeck').forEach((btn,i)=>{
+        btn.addEventListener('click', ()=> {
+          const d = decks[i];
+          document.getElementById('deckInput').value = d.cards.join(', ');
+          analyzeDeck();
+        });
+      });
+    }
+
+    function showCounters(counters) {
+      const grid = document.getElementById('countersGrid');
+      grid.innerHTML = '';
+      counters.forEach(c => {
+        const el = document.createElement('div');
+        el.className = 'card-item';
+        el.innerHTML = `<strong>${c.card}</strong><div class="muted">${c.counter} • ${c.how}</div>`;
+        grid.appendChild(el);
+      });
+    }
+
+    // simples base de counters (pode crescer)
+    const baseCounters = [
+      {card:'Gigante', counter:'Mini PEKKA / Tombstone', how:'Defenda com Mini PEKKA por trás da torre ou distraia com estrutura'},
+      {card:'Mago', counter:'Bola de Fogo / Mago de Gelo', how:'Use bola ou tropas de resistência para se aproximar'},
+      {card:'Bebê Dragão', counter:'Inferno / Dragão', how:'Inferno converte dano crescente; mantenha pressão lateral'}
+    ];
+
+    function analyzeDeck() {
+      const raw = document.getElementById('deckInput').value;
+      if(!raw.trim()){ document.getElementById('analysisResult').textContent = 'Cole as cartas do seu deck.'; return; }
+      const names = raw.split(',').map(s=>s.trim()).filter(Boolean).slice(0,8);
+      // Try to find elixir from cards list fetched earlier
+      const cardsData = window._CARDS_CACHE || [];
+      const found = names.map(n=>{
+        const found = cardsData.find(c => (c.name||'').toLowerCase()===n.toLowerCase());
+        return found ? {name:n, elixir:found.elixir||found.elixirCost||0} : {name:n, elixir:0};
+      });
+      const totalElixir = found.reduce((s,c)=>s+(c.elixir||0),0);
+      const avg = (found.length? (totalElixir/found.length):0).toFixed(2);
+      const missing = found.filter(f=>f.elixir===0).map(f=>f.name);
+      const strengths = [];
+      if(avg < 3.5) strengths.push('Deck rápido — pressão constante');
+      if(avg >= 3.5 && avg <=4.5) strengths.push('Deck equilibrado');
+      if(avg > 4.5) strengths.push('Deck pesado — bom para finais');
+      const result = `Cartas: ${names.join(', ')}\nMédia de elixir: ${avg}\nForças: ${strengths.join(', ')}${missing.length? `\nCartas sem dados (sem elixir): ${missing.join(', ')}`: ''}`;
+      document.getElementById('analysisResult').textContent = result;
+    }
+
+    document.getElementById('analyzeBtn').addEventListener('click', analyzeDeck);
+    document.getElementById('fillExample').addEventListener('click', ()=>{
+      document.getElementById('deckInput').value = 'Gigante, Mago, Arqueiras, Bola de Fogo, Esqueletos, Torre Tesla, Bebê Dragão, Príncipe';
+      analyzeDeck();
+    });
+
+    // load everything
+    (async ()=> {
+      await loadDecks();
+      showCounters(baseCounters);
+      // cache cards
+      try {
+        const c = await fetch('/cards').then(r=>r.json());
+        window._CARDS_CACHE = c.items || c || [];
+      } catch(e){ window._CARDS_CACHE = []; }
+    })();
+  </script>
+</body>
+</html>
